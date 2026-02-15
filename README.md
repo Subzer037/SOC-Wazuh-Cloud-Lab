@@ -1,111 +1,175 @@
-## CI/CD Automation (DevSecOps)
-A GitHub Actions pipeline was implemented to automate security log analysis. 
-On every code push, a Python script analyzes Wazuh alert logs and detects high severity events automatically.
+🔐 SOC Wazuh Cloud Lab – Challenges, Achievements & Outcomes
+📌 Project Overview
 
-## Attacks Simulated
-- Nmap port scanning
-- Hydra brute force attack
+This project demonstrates the design and implementation of a Security Operations Center (SOC) monitoring environment using Wazuh SIEM, Ubuntu Linux, and Kali Linux. The lab simulates real-world attack scenarios and analyzes system logs to detect and visualize security threats.
 
-## Logs Monitored
-- Authentication logs
-- Network activity logs
-- Security alerts
+The environment consists of:
 
-## Results
-The system successfully detected brute force and scanning attacks and generated alerts in the Wazuh dashboard.
+Wazuh Manager deployed on Ubuntu (Google Cloud)
 
----
+Wazuh Agent deployed on Ubuntu (VMware)
 
-## 🔴 Issues Faced (Challenges)
+Kali Linux as the attacker machine
 
-During the setup and testing of the Wazuh security monitoring lab, several technical challenges were encountered:
+Attack simulation using Nmap and Hydra
 
-1. **SSH Service Not Running on Ubuntu**
-   - Initially, the Ubuntu VM (Wazuh Agent) did not have the SSH service running.
-   - All connection attempts from Kali Linux failed with “Connection refused” errors.
-   - This prevented both SSH login and Hydra attack simulation.
+Log monitoring and alert analysis via Wazuh Dashboard
 
-2. **User Account Not Created**
-   - The testuser account required for SSH authentication testing did not exist initially.
-   - Without a valid user, authentication attempts could not be performed.
+⚠️ Challenges Encountered
 
-3. **Network and Connectivity Confusion**
-   - Incorrect IP addresses (198.x.x.x instead of 192.168.x.x) caused failed connections.
-   - Confusion existed around firewall rules, SSH configuration, and VM networking.
+During the setup and testing phase, several technical challenges were faced:
 
-4. **Hydra Connection Errors**
-   - Hydra with large wordlists and default threads caused:
-     > "all children were disabled due to too many connection errors"
-   - This occurred due to SSH rate-limiting and connection drops.
+1. SSH Service Misconfiguration
 
-5. **Possible Blocking by Security Controls**
-   - SSH limits and security tools such as fail2ban interfered with brute-force attempts.
-   - Hydra speed had to be reduced and logs examined.
+The Ubuntu Wazuh Agent initially did not have the SSH service running.
 
-6. **Understanding Where to Monitor Logs in Wazuh**
-   - Initially unclear where to view SSH logs in the Wazuh Dashboard.
-   - Learned to use Threat Hunting and Security Events sections.
+All SSH connection attempts returned “Connection refused” errors.
 
----
+This blocked both legitimate login and attack simulation activities.
 
-## 🟢 Achievements
+2. Missing User Account
 
-1. **Successful User Creation**
-   - Created and verified `testuser` on Ubuntu.
-   - Confirmed local and remote SSH login.
+The required test account (testuser) for SSH authentication testing was not present initially.
 
-2. **SSH Service Enabled and Verified**
-   - Installed and enabled OpenSSH server.
-   - Verified SSH connectivity from Kali.
+Without a valid user, authentication-based attacks could not be simulated.
 
-3. **Attack Simulation Environment Built**
-   - Kali Linux as attacker.
-   - Ubuntu (Wazuh Agent) as victim.
-   - Used Hydra and manual SSH attempts.
+3. Network Connectivity Issues
 
-4. **Log Generation on Ubuntu**
-   - SSH failures recorded in:
-     ```
-     /var/log/auth.log
-     ```
+Incorrect IP address usage (e.g., typing 198.x.x.x instead of 192.168.x.x) caused repeated connection failures.
 
-5. **Integration with Wazuh Monitoring**
-   - Ubuntu agent successfully connected to Wazuh Manager.
-   - Logs forwarded to Wazuh Dashboard.
+Required troubleshooting of VM networking and connectivity between Kali and Ubuntu systems.
 
-6. **Visibility of Security Events in Wazuh**
-   - Alerts visible in:
-     - Threat Hunting
-     - Security Events
-   - Mapped to MITRE ATT&CK technique T1110 (Brute Force).
+4. Hydra Brute-Force Errors
 
-7. **Practical Cybersecurity Learning Outcome**
-   - Hands-on experience in:
-     - Linux user management
-     - SSH configuration
-     - Network troubleshooting
-     - Attack simulation
-     - SIEM log monitoring
+Running Hydra with large wordlists and default thread settings resulted in the error:
 
----
+“all children were disabled due to too many connection errors”
 
-## 🧠 Overall Outcome
+This occurred due to SSH rate-limiting and connection drops from excessive parallel attempts.
 
-This project demonstrated the complete lifecycle of a SOC lab:
+5. Security Control Interference
 
-**Setup → Troubleshooting → Attack Simulation → Log Monitoring → Analysis**
+SSH connection limits and potential security tools (e.g., fail2ban) interfered with brute-force attempts.
 
-Each error improved understanding of:
-- Service communication
-- Attack detection
-- Security alert visualization in Wazuh
+Required reducing Hydra speed and validating events through system logs.
 
----
+6. Log Visibility in Wazuh Dashboard
 
-## 🏁 Final Conclusion
+Initially unclear where authentication and attack logs were visible within Wazuh.
 
-**Issues faced:**  
-SSH not running, missing user account, incorrect IP usage, Hydra connection errors, and difficulty locating logs in the Wazuh Dashboard.
+Required learning how to navigate:
 
-**Achievements:**  
-A fully functional Wazuh monitoring environment with a connected Ubuntu agent, successful SSH attack simulation from Kali, and real-time visualization of security alerts in the Wazuh Dashboard.
+Threat Hunting
+
+Security Events
+
+MITRE ATT&CK mapping views
+
+✅ Achievements
+
+Despite the challenges, the project successfully achieved the following objectives:
+
+1. User and Service Configuration
+
+Created and validated the testuser account on Ubuntu.
+
+Installed, started, and enabled the OpenSSH service.
+
+Verified both local and remote SSH connectivity from Kali Linux.
+
+2. Attack Simulation Environment
+
+Built a controlled attack lab using:
+
+Kali Linux (attacker)
+
+Ubuntu with Wazuh Agent (victim)
+
+Generated security events using:
+
+Manual SSH login failures
+
+Hydra brute-force attempts
+
+Nmap scanning
+
+3. Log Generation and Collection
+
+SSH authentication failures were successfully recorded in:
+
+/var/log/auth.log
+
+
+Logs were forwarded from the Ubuntu agent to the Wazuh Manager.
+
+4. SIEM Integration and Monitoring
+
+Ubuntu agent was correctly registered with the Wazuh Manager.
+
+Security events appeared in the Wazuh Dashboard in real time.
+
+5. Alert Detection and MITRE Mapping
+
+Wazuh generated alerts mapped to:
+
+MITRE ATT&CK Technique T1110 – Brute Force
+
+Events were visible under:
+
+Threat Hunting
+
+Security Events
+
+6. Practical Security Skills Gained
+
+Hands-on experience was gained in:
+
+Linux user and service management
+
+SSH configuration and troubleshooting
+
+Network debugging
+
+Attack simulation techniques
+
+SIEM log analysis and alert investigation
+
+🧠 Overall Outcome
+
+This project demonstrates the complete SOC workflow:
+
+Environment Setup → Troubleshooting → Attack Simulation → Log Collection → Threat Detection → Analysis
+
+Each technical issue strengthened understanding of:
+
+Service communication between systems
+
+How attacks are detected at the log level
+
+How Wazuh visualizes and correlates security events
+
+🏁 Final Conclusion
+
+Key Challenges:
+
+SSH misconfiguration
+
+Missing user accounts
+
+Network addressing errors
+
+Hydra connection limits
+
+Difficulty locating security logs in the dashboard
+
+Key Achievements:
+
+A fully operational Wazuh monitoring lab
+
+Successful SSH brute-force attack simulation from Kali Linux
+
+Real-time alert generation and visualization in Wazuh Dashboard
+
+Detection of brute-force activity mapped to MITRE ATT&CK techniques
+
+This project validates the ability to design, deploy, troubleshoot, and operate a basic SOC monitoring environment using open-source security tools.
